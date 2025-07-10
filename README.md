@@ -1,1 +1,1 @@
-# biokgvec2go
+# Bio-KGvec2go
