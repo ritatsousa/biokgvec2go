@@ -1,0 +1,11 @@
+2025-07-14 20:13:26,452 INFO:Loading embedding models from ./Updated_models
+2025-07-14 20:13:26,452 INFO:  → Loading JSON 'GO_BoxE.json'
+2025-07-14 20:13:30,536 INFO:  → Loading JSON 'GO_distMult.json'
+2025-07-14 20:13:34,301 INFO:  → Loading JSON 'GO_HoLE.json'
+2025-07-14 20:13:38,317 INFO:  → Loading JSON 'GO_Labels.json'
+2025-07-14 20:13:38,367 INFO:  → Loading JSON 'GO_RDF2Vec.json'
+2025-07-14 20:13:42,097 INFO:  → Loading JSON 'GO_TransE.json'
+2025-07-14 20:13:46,027 INFO:  → Loading JSON 'GO_TransR.json'
+2025-07-14 20:13:50,809 INFO:  → Loading JSON 'HP_Labels.json'
+2025-07-14 20:13:50,837 INFO:  → Loading JSON 'HP_RDF2Vec.json'
+2025-07-14 20:13:52,258 INFO:Total GO/HP models loaded: 9

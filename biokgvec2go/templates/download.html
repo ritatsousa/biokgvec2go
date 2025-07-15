@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block download_active %}active{% endblock %}
+{% block header_1 %}Download the Vectors{% endblock %}
+{% block content_1 %}
+
+<h2>Gene Ontology (GO)</h2> 
+
+<h4>2025-06-01</h4>
+<select onchange="if(this.value) window.location.href=this.value">
+    <option value="">Select embedding model to download</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2025-06-01', filename='TransE_entity.json') }}">TransE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2025-06-01', filename='TransR_entity.json') }}">TransR</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2025-06-01', filename='BoxE_entity.json') }}">BoxE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2025-06-01', filename='distMult_entity.json') }}">distMult</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2025-06-01', filename='HolE_entity.json') }}">HolE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2025-06-01', filename='RDF2Vec.json') }}">RDF2Vec</option>
+</select>
+
+<h4>2024-11-03</h4>
+<select onchange="if(this.value) window.location.href=this.value">
+    <option value="">Select embedding model to download</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-11-03', filename='TransE_entity.json') }}">TransE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-11-03', filename='TransR_entity.json') }}">TransR</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-11-03', filename='BoxE_entity.json') }}">BoxE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-11-03', filename='distMult_entity.json') }}">distMult</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-11-03', filename='HolE_entity.json') }}">HolE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-11-03', filename='RDF2Vec.json') }}">RDF2Vec</option>
+</select>
+
+<h4>2024-06-10</h4>
+<select onchange="if(this.value) window.location.href=this.value">
+    <option value="">Select embedding model to download</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-06-10', filename='TransE_entity.json') }}">TransE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-06-10', filename='TransR_entity.json') }}">TransR</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-06-10', filename='BoxE_entity.json') }}">BoxE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-06-10', filename='distMult_entity.json') }}">distMult</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-06-10', filename='HolE_entity.json') }}">HolE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-06-10', filename='RDF2Vec.json') }}">RDF2Vec</option>
+</select>
+
+<h4>2024-01-17</h4>
+<select onchange="if(this.value) window.location.href=this.value">
+    <option value="">Select embedding model to download</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-01-17', filename='TransE_entity.json') }}">TransE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-01-17', filename='TransR_entity.json') }}">TransR</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-01-17', filename='BoxE_entity.json') }}">BoxE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-01-17', filename='distMult_entity.json') }}">distMult</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-01-17', filename='HolE_entity.json') }}">HolE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2024-01-17', filename='RDF2Vec.json') }}">RDF2Vec</option>
+</select>
+
+<h4>2023-06-11</h4>
+<select onchange="if(this.value) window.location.href=this.value">
+    <option value="">Select embedding model to download</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2023-06-11', filename='TransE_entity.json') }}">TransE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2023-06-11', filename='TransR_entity.json') }}">TransR</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2023-06-11', filename='BoxE_entity.json') }}">BoxE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2023-06-11', filename='distMult_entity.json') }}">distMult</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2023-06-11', filename='HolE_entity.json') }}">HolE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2023-06-11', filename='RDF2Vec.json') }}">RDF2Vec</option>
+</select>
+
+<h4>2023-01-01</h4>
+<select onchange="if(this.value) window.location.href=this.value">
+    <option value="">Select embedding model to download</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2023-01-01', filename='TransE_entity.json') }}">TransE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2023-01-01', filename='TransR_entity.json') }}">TransR</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2023-01-01', filename='BoxE_entity.json') }}">BoxE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2023-01-01', filename='distMult_entity.json') }}">distMult</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2023-01-01', filename='HolE_entity.json') }}">HolE</option>
+    <option value="{{ url_for('download_folder', ont='GO', version='2023-01-01', filename='RDF2Vec.json') }}">RDF2Vec</option>
+</select>
+
+<br/>
+<br/>
+
+<h2>Human Phenotype Ontology (HP)</h2> 
+
+<h4>2025-05-06</h4>
+<select onchange="if(this.value) window.location.href=this.value">
+    <option value="">Select embedding model to download</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2025-05-06', filename='TransE_entity.json') }}">TransE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2025-05-06', filename='TransR_entity.json') }}">TransR</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2025-05-06', filename='BoxE_entity.json') }}">BoxE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2025-05-06', filename='distMult_entity.json') }}">distMult</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2025-05-06', filename='HolE_entity.json') }}">HolE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2025-05-06', filename='RDF2Vec.json') }}">RDF2Vec</option>
+</select>
+
+<h4>2025-01-16</h4>
+<select onchange="if(this.value) window.location.href=this.value">
+    <option value="">Select embedding model to download</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2025-01-16', filename='TransE_entity.json') }}">TransE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2025-01-16', filename='TransR_entity.json') }}">TransR</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2025-01-16', filename='BoxE_entity.json') }}">BoxE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2025-01-16', filename='distMult_entity.json') }}">distMult</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2025-01-16', filename='HolE_entity.json') }}">HolE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2025-01-16', filename='RDF2Vec.json') }}">RDF2Vec</option>
+</select>
+
+<h4>2024-07-01</h4>
+<select onchange="if(this.value) window.location.href=this.value">
+    <option value="">Select embedding model to download</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2024-07-01', filename='TransE_entity.json') }}">TransE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2024-07-01', filename='TransR_entity.json') }}">TransR</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2024-07-01', filename='BoxE_entity.json') }}">BoxE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2024-07-01', filename='distMult_entity.json') }}">distMult</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2024-07-01', filename='HolE_entity.json') }}">HolE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2024-07-01', filename='RDF2Vec.json') }}">RDF2Vec</option>
+</select>
+
+<h4>2024-01-16</h4>
+<select onchange="if(this.value) window.location.href=this.value">
+    <option value="">Select embedding model to download</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2024-01-16', filename='TransE_entity.json') }}">TransE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2024-01-16', filename='TransR_entity.json') }}">TransR</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2024-01-16', filename='BoxE_entity.json') }}">BoxE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2024-01-16', filename='distMult_entity.json') }}">distMult</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2024-01-16', filename='HolE_entity.json') }}">HolE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2024-01-16', filename='RDF2Vec.json') }}">RDF2Vec</option>
+</select>
+
+<h4>2023-06-17</h4>
+<select onchange="if(this.value) window.location.href=this.value">
+    <option value="">Select embedding model to download</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2023-06-17', filename='TransE_entity.json') }}">TransE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2023-06-17', filename='TransR_entity.json') }}">TransR</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2023-06-17', filename='BoxE_entity.json') }}">BoxE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2023-06-17', filename='distMult_entity.json') }}">distMult</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2023-06-17', filename='HolE_entity.json') }}">HolE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2023-06-17', filename='RDF2Vec.json') }}">RDF2Vec</option>
+</select>
+
+<h4>2023-01-27</h4>
+<select onchange="if(this.value) window.location.href=this.value">
+    <option value="">Select embedding model to download</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2023-01-27', filename='TransE_entity.json') }}">TransE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2023-01-27', filename='TransR_entity.json') }}">TransR</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2023-01-27', filename='BoxE_entity.json') }}">BoxE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2023-01-27', filename='distMult_entity.json') }}">distMult</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2023-01-27', filename='HolE_entity.json') }}">HolE</option>
+    <option value="{{ url_for('download_folder', ont='HP', version='2023-01-27', filename='RDF2Vec.json') }}">RDF2Vec</option>
+</select>
+
+{% endblock %}

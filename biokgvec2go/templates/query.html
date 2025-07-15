@@ -1,0 +1,332 @@
+{% extends "base.html" %}
+
+{% block query_active %}active{% endblock %}
+{% block header_1 %}Query the Data in Your Browser{% endblock %}
+{% block script_include %}
+
+<script src="{{ url_for('static', filename='scripts.js') }}"></script>
+{% endblock %}
+
+{% block content_1 %}
+  <!-- ================= Top: Similarity ================= -->
+  <h2>Similarity</h2>
+  <p>This is the GUI version of the API call "Get Similarity".</p>
+
+  <ul class="nav nav-tabs">
+    {% for svc,label in [
+      ('go','GO'),
+      ('hp','HP')
+    ] %}
+      <li class="nav-item">
+        <a class="nav-link {% if loop.first %}active{% endif %}"
+           href="#"
+           id="{{ svc }}-sim-nav"
+           data-service="{{ svc }}">
+          {{ label }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col" id="model1-col">
+        <div class="form-group">
+          <label for="model1">Select embedding model</label>
+          <select id="model1" class="form-control">
+            <option value="BoxE">BoxE</option>
+            <option value="distMult">DistMult</option>
+            <option value="HoLE">HoLE</option>
+            <option value="TransE">TransE</option>
+            <option value="TransR">TransR</option>
+            <option value="RDF2Vec">RDF2vec</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row id-inputs mt-2" style="display:none;">
+      <div class="col">
+        <div class="form-group">
+          <label for="id1">Key1</label>
+          <input type="text" id="id1" class="form-control" placeholder="Enter Key 1">
+          <small id="id-hint" class="form-text text-muted"></small>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="id2">Key2</label>
+          <input type="text" id="id2" class="form-control" placeholder="Enter Key 2">
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-2">
+      <div class="col">
+        <button id="similarity-button" class="btn btn-outline-secondary">Calculate Similarity</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="similarity-result" class="container mt-3"></div>
+
+  <!-- ================ Spacer ================ -->
+  <p class="mt-5"><br/></p>
+
+  <!-- ================ Bottom: N Closest Concepts ================ -->
+  <h2 class="container">Top 10 Closest Concepts</h2>
+  <p class="container">
+    This is the GUI version of the API call "N Closest Concepts".<br/>
+  </p>
+
+  <ul class="nav nav-tabs" id="bottom-tabs">
+    {% for svc,label in [
+      ('go','GO'),
+      ('hp','HP')
+    ] %}
+      <li class="nav-item">
+        <a class="nav-link {% if loop.first %}active{% endif %}"
+           href="#"
+           id="{{ svc }}-nav"
+           data-service="{{ svc }}">
+          {{ label }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <!-- Generic search (first four) -->
+  <div id="generic-search" class="container mt-3">
+    <div class="input-group mb-3">
+      <input type="text"
+             id="search_field"
+             class="form-control"
+             placeholder="Search Term">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" id="button-addon2" type="button">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GO/HP search -->
+  <div id="gohp-search" class="container mt-3" style="display:none;">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="bottom-model">Select embedding model</label>
+          <select id="bottom-model" class="form-control"></select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="bottom-key">ID or Label for class</label>
+          <input type="text" id="bottom-key" class="form-control" placeholder="Enter ID">
+          <small id="bottom-key-hint" class="form-text text-muted"></small>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button id="bottom-search-button" class="btn btn-outline-secondary mt-4">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results table -->
+  <div class="container mt-4">
+    <table class="table table-striped" id="closest-table" style="display:none;">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Class Label</th>
+          <th>URL</th>
+          <th>Similarity Score</th>
+        </tr>
+      </thead>
+      <tbody id="closest-body"></tbody>
+    </table>
+  </div>
+
+  <div class="container mt-4">
+    <table class="table table-striped" id="similarity-table" style="display:none;">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Class Label 1</th>
+          <th>Class Label 2</th>
+          <th>Similarity Score</th>
+        </tr>
+      </thead>
+      <tbody id="closest-body"></tbody>
+    </table>
+  </div>
+
+  <!-- model_list JSON -->
+  <script id="model-data" type="application/json">
+    {{ model_list | tojson }}
+  </script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function(){
+    var oboPrefix      = "http://purl.obolibrary.org/obo/";
+    var embeddedModels =["TransR", "BoxE", "distMult", "HoLE", "TransE", "RDF2Vec"];
+    var topServices    = ["go","hp"];
+    var bottomServices = topServices.slice();
+    var currentTop     = "go";
+    var currentBottom  = "go";
+
+    // Top elements
+    var m1col = document.getElementById("model1-col"),
+        ids   = document.querySelector(".id-inputs"),
+        lbl1  = document.querySelector("label[for='id1']"),
+        inp1  = document.getElementById("id1"),
+        lbl2  = document.querySelector("label[for='id2']"),
+        inp2  = document.getElementById("id2"),
+        hnt1  = document.getElementById("id-hint"),
+        outtable1  = document.getElementById("similarity-table"),
+        out1  = document.getElementById("similarity-result");
+
+    // Bottom elements
+    var genericSearch  = document.getElementById("generic-search"),
+        gohpSearch     = document.getElementById("gohp-search"),
+        closestTable   = document.getElementById("closest-table"),
+        closestBody    = document.getElementById("closest-body"),
+        modelSel       = document.getElementById("bottom-model"),
+        keyInput       = document.getElementById("bottom-key"),
+        keyHint        = document.getElementById("bottom-key-hint"),
+        genericBtn     = document.getElementById("button-addon2"),
+        bottomBtn      = document.getElementById("bottom-search-button");
+
+    function show(el){ el.style.display = ""; }
+    function hide(el){ el.style.display = "none"; }
+
+    // Populate bottom model dropdown
+    embeddedModels.forEach(function(m){
+      var base = m.split(/[_\.]/)[0],
+          opt  = document.createElement("option");
+      opt.value       = m;
+      opt.textContent = base;
+      modelSel.appendChild(opt);
+    });
+
+    // Top tab switch
+    function activateTop(svc) {
+      currentTop = svc;
+      topServices.forEach(function(s){
+        document.getElementById(s+"-sim-nav")
+          .classList.toggle("active", s===svc);
+      });
+      show(m1col); show(ids);
+      if (svc==="go") {
+        lbl1.textContent  = "ID or Label 1 for GO class"; inp1.placeholder  = "Enter ID/Label 1 for GO class";
+        lbl2.textContent  = "ID or Label 2 for GO class"; inp2.placeholder  = "Enter ID/Label 2 for GO class";
+        hnt1.textContent  = "Example: 'GO_0006396' or 'RNA processing'";
+      } else {
+        lbl1.textContent  = "ID or Label 1 for HP class"; inp1.placeholder  = "Enter ID/Label 1 for HP class";
+        lbl2.textContent  = "ID or Label 2 for HP class"; inp2.placeholder  = "Enter ID/Label 2 for HP class";
+        hnt1.textContent  = "Example: 'HP_0002664' or 'Neoplasm'";
+      }
+      var sel = document.getElementById("model1"); sel.innerHTML="";
+      embeddedModels.forEach(function(m){
+        var b=m.split(/[_\.]/)[0],o=document.createElement("option");
+        o.value=m; o.textContent=b; sel.appendChild(o);
+      });
+      out1.innerHTML="";
+    }
+    topServices.forEach(function(svc){
+      document.getElementById(svc+"-sim-nav").addEventListener("click",function(e){
+        e.preventDefault(); activateTop(svc);
+      });
+    });
+
+    // Top calculate
+    document.getElementById("similarity-button").addEventListener("click",function(){
+      out1.innerHTML="";
+      var url, body={};
+      url = "/rest/calculate-similarity-"+currentTop;
+      var r1=inp1.value.trim(), r2=inp2.value.trim();
+      if(!r1||!r2){ out1.innerHTML='<div class="alert alert-warning">Please enter both keys.</div>'; return; }
+      body={ model: document.getElementById("model1").value, id1:r1, id2:r2};
+      
+      fetch(url,{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(body)
+      })
+      .then(r=>r.json().then(j=>{
+        if(r.ok){
+          var sc=j.similarity!==undefined?j.similarity:j.similarity_score;
+          var e1=j.label1;
+          var e2=j.label2;
+          var u1=j.url1;
+          var u2=j.url2;
+          out1.innerHTML=`<div class="alert alert-success"><p>Similarity between <a href="${u1}" target="_blank">${e1}</a> and <a href="${u2}" target="_blank">${e2}</a>: <strong>${sc.toFixed(4)}</strong></p></div>`;
+        } else {
+          out1.innerHTML=`<div class="alert alert-danger">${j.error}</div>`;
+        }
+      }));
+    });
+
+    // Bottom tab switch
+    function activateBottom(svc){
+      currentBottom=svc;
+      bottomServices.forEach(function(s){
+        document.getElementById(s+"-nav")
+          .classList.toggle("active", s===svc);
+      });
+      hide(genericSearch); show(gohpSearch); hide(closestTable);
+      keyHint.textContent = "Example: "+(svc==="go"?"'GO_0006400' or 'tRNA modification'":"'HP_0000039' or 'Epispadias'");
+      
+    }
+    bottomServices.forEach(function(svc){
+      document.getElementById(svc+"-nav").addEventListener("click",function(e){
+        e.preventDefault(); activateBottom(svc);
+      });
+    });
+
+    // Bottom generic
+    genericBtn.addEventListener("click",function(){
+      if(!["go","hp"].includes(currentBottom)){
+        window.handleNClosestSearch(currentBottom);
+      }
+    });
+
+    // Bottom GO/HP search with prefix logic
+    bottomBtn.addEventListener("click", function(){
+      if(!["go","hp"].includes(currentBottom)) return;
+      var raw=keyInput.value.trim();
+      if(!raw){
+        closestBody.innerHTML='<tr><td colspan="3"><div class="alert alert-warning">Enter a ID.</div></td></tr>';
+        show(closestTable); return;
+      }
+      fetch("/rest/closest-"+currentBottom,{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          model: modelSel.value,
+          key:   raw,
+          top_n: 10
+        })
+      })
+      .then(r=>r.json().then(j=>{
+        if(!r.ok){
+          closestBody.innerHTML=`<tr><td colspan="3"><div class="alert alert-danger">${j.error}</div></td></tr>`;
+          show(closestTable); return;
+        }
+        closestBody.innerHTML="";
+        j.forEach((it,i)=>{
+          var tr=document.createElement("tr");
+          tr.innerHTML=`<td>${i+1}</td>
+                        <td>${it.key}</td>
+                        <td><a href="${it.link}" target="_blank">Link</a></td>
+                        <td>${it.similarity.toFixed(4)}</td>`;
+          closestBody.appendChild(tr);
+        });
+        show(closestTable);
+      }));
+    });
+
+    // Initialize both sections
+    activateTop("go");
+    activateBottom("go");
+  });
+  </script>
+{% endblock %}

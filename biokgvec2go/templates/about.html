@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block about_active %}active{% endblock %}
+{% block header_1 %}
+<div style="text-align: center;">
+    <img src="/static/apple-touch-icon_horizontal(reverse).png" alt="Bio-KGvec2go Logo" style="max-height:300px;">
+</div>
+{% endblock %}
+{% block content_1 %}
+
+
+<h2>Welcome!</h2>
+<p>Bio-KGvec2go is a semantic resource consisting of knowledge graph embeddings trained currently on 2 different biomedical knowledge graphs - Gene Ontology (GO) and Human Phenotype Ontology (HP).<br/>
+<br/>
+The embeddings can be <a href="/download.html">downloaded</a> or explored in our <a href="/query.html">Web UI.</a><br/>
+<br/>
+Feel free to <a href="/contact.html">contact</a> us in case of questions of problems.<p>
+
+<br/>
+<h2>Code</h2>
+<p>The implementation is built on top of <a href="https://github.com/janothan/kgvec2go-server/">KGvec2go</a>.
+{% endblock %}
